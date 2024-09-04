@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import {HOSTNAME} from "../util/HostnameConfig";
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
+import {getConfig} from "../util/Config";
 
 class BaseClient {
     protected baseUrl: string;
@@ -7,17 +7,17 @@ class BaseClient {
     private restInstance: AxiosInstance;
 
     constructor() {
-        this.baseUrl = HOSTNAME;
+        const config = getConfig();
+        this.baseUrl = config.HOSTNAMEAPI;
         this.httpRequestHeaders = {};
         this.restInstance = axios.create({
-            baseURL: HOSTNAME
+            baseURL: config.HOSTNAMEAPI
         });
     }
 
     private async handleRequest<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T> | null> {
         try {
-            const response = await this.restInstance.request<T>(config);
-            return response;
+            return await this.restInstance.request<T>(config);
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error.response) {

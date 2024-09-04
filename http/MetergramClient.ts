@@ -1,21 +1,23 @@
 import BaseClient from "./BaseClient"
 import { ResponseEntity } from "express"; // Assuming ResponseEntity is similar to express's Response
 
-import { HOSTNAME } from "../util/HostnameConfig";
+import {getConfig} from "../util/Config";
 import {GetUserResponseBody} from "../model/get/GetUserResponseBody";
+
 
 export class MetergramClient extends BaseClient {
     // private static readonly authenticate = "/login";
     // private Token: string;
 
     // private postAuthRequestBody: PostAuthRequestBody = {
-    //     email: "nikola_nikolik@hotmail.com",
+    //     email: "",
     //     password: ""
     // };
 
     constructor() {
         super();
-        this.baseUrl = HOSTNAME;
+        const config = getConfig();
+        this.baseUrl = config.HOSTNAMEAPI;
         // this.authenticateOnTheSite(this.postAuthRequestBody);
         // const responseEntity: ResponseEntity<PostAuthResponseBody> = this.authenticateOnTheSite(this.postAuthRequestBody);
         // this.Token = responseEntity.body.token;
