@@ -1,5 +1,5 @@
 FROM node:18
-LABEL authors="Lenovo"
+LABEL authors="Metergram"
 WORKDIR /e2e
 
 COPY ["package.json", "./"]
