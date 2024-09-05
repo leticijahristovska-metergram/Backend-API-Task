@@ -69,11 +69,12 @@ class BaseClient {
         return await this.handleRequest<T>(config);
     }
 
-    async delete<T>(route: string): Promise<AxiosResponse<T> | null> {
+    async delete<T>(route: string, body?: any): Promise<AxiosResponse<T> | null> {
         const config: AxiosRequestConfig = {
             url: this.baseUrl + route,
             method: 'delete',
-            headers: this.httpRequestHeaders
+            headers: this.httpRequestHeaders,
+            data: body
         };
         return await this.handleRequest<T>(config);
     }
