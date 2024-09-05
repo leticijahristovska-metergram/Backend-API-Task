@@ -1,10 +1,17 @@
 import * as dotenv from 'dotenv';
-import {ERRORS} from "./Errors";
+import { ERRORS } from "./Errors";
 
-// Load environment variables from .env file into process.env
 dotenv.config();
 
+/**
+ * Interface representing configuration for different environments.
+ * @interface
+ */
 interface Config {
+    /**
+     * The hostname for the API.
+     * @type {string}
+     */
     HOSTNAMEAPI: string;
 }
 
@@ -26,6 +33,11 @@ if (!configs[env]) {
     throw new Error(ERRORS.CONFIG_NOT_FOUND(env));
 }
 
+/**
+ * Retrieves the configuration object based on the current environment.
+ * @returns {Config} The configuration object for the current environment.
+ * @throws {Error} Throws an error if the configuration or required environment variables are missing.
+ */
 export function getConfig(): Config {
     const config = configs[env];
 

@@ -1,18 +1,28 @@
-import {Pool, QueryResult as PGQueryResult} from 'pg';
+import { Pool, QueryResult as PGQueryResult } from 'pg';
 import { IDatabaseClient } from './IDatabaseClient';
 import * as dotenv from 'dotenv';
-import {ERRORS} from "../util/Errors";
+import { ERRORS } from "../util/Errors";
 
 dotenv.config();
 
+/**
+ * A PostgreSQL client implementation for interacting with a PostgreSQL database.
+ * Implements the {@link IDatabaseClient} interface.
+ * @implements {IDatabaseClient}
+ */
 export class PostgresClient implements IDatabaseClient {
     private pool: Pool;
 
+    /**
+     * Creates an instance of the PostgresClient.
+     * Initializes the database connection pool based on the current environment.
+     * @throws {Error} Throws an error if the configuration for the environment is not found.
+     */
     constructor() {
         let host: string, port: number, user: string, password: string, database: string;
         const env = process.env.ENVIRONMENT;
 
-        switch (process.env.ENVIRONMENT) {
+        switch (env) {
             case 'dev':
                 host = process.env.DEV_DB_HOST!;
                 port = parseInt(process.env.DEV_DB_PORT!, 10);
@@ -40,6 +50,11 @@ export class PostgresClient implements IDatabaseClient {
         });
     }
 
+    /**
+     * Establishes a connection to the PostgreSQL database.
+     * @returns {Promise<void>} A promise that resolves when the connection is established.
+     * @throws {Error} Throws an error if the connection fails.
+     */
     async connect(): Promise<void> {
         try {
             await this.pool.connect();
@@ -48,6 +63,14 @@ export class PostgresClient implements IDatabaseClient {
         }
     }
 
+    /**
+     * Executes a SQL query on the PostgreSQL database.
+     * @param {string} query - The SQL query string to be executed.
+     * @param {any[]} [params] - Optional parameters for the query.
+     * @returns {Promise<PGQueryResult<T>>} A promise that resolves with the query result.
+     * @template T - The type of the rows returned by the query.
+     * @throws {Error} Throws an error if the query execution fails.
+     */
     async query<T>(query: string, params?: any[]): Promise<PGQueryResult<T>> {
         try {
             const result: PGQueryResult<T> = await this.pool.query<T>(query, params);
@@ -63,6 +86,11 @@ export class PostgresClient implements IDatabaseClient {
         }
     }
 
+    /**
+     * Closes the connection to the PostgreSQL database.
+     * @returns {Promise<void>} A promise that resolves when the disconnection is complete.
+     * @throws {Error} Throws an error if the disconnection fails.
+     */
     async disconnect(): Promise<void> {
         try {
             await this.pool.end();

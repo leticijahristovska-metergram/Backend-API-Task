@@ -1,10 +1,11 @@
-import BaseClient from "./BaseClient"
-import { ResponseEntity } from "express"; // Assuming ResponseEntity is similar to express's Response
+import BaseClient from "./BaseClient";
+import { ResponseEntity } from "express";
+import { getConfig } from "../util/Config";
+import { GetUserResponseBody } from "../model/get/GetUserResponseBody";
 
-import {getConfig} from "../util/Config";
-import {GetUserResponseBody} from "../model/get/GetUserResponseBody";
-
-
+/**
+ * Extends BaseClient to provide additional functionality for interacting with the Metergram API.
+ */
 export class MetergramClient extends BaseClient {
     // private static readonly authenticate = "/login";
     // private Token: string;
@@ -14,6 +15,10 @@ export class MetergramClient extends BaseClient {
     //     password: ""
     // };
 
+    /**
+     * Creates an instance of the MetergramClient.
+     * Initializes headers and base URL for API requests.
+     */
     constructor() {
         super();
         const config = getConfig();
@@ -25,11 +30,21 @@ export class MetergramClient extends BaseClient {
         // this.addHeader("Authorization", `Bearer ${this.Token}`);
     }
 
+    /**
+     * Fetches user details by user ID.
+     * @param {number} id - The ID of the user to fetch.
+     * @returns {ResponseEntity<GetUserResponseBody>} The response entity containing the user details.
+     */
+    public getUserById(id: number): ResponseEntity<GetUserResponseBody> {
+        return this.get("users/" + id);
+    }
+
+    // /**
+    //  * Authenticates on the site using provided credentials.
+    //  * @param {PostAuthRequestBody} postAuthRequestBody - The request body containing email and password.
+    //  * @returns {ResponseEntity<PostAuthResponseBody>} The response entity containing the authentication token.
+    //  */
     // public authenticateOnTheSite(postAuthRequestBody: PostAuthRequestBody): ResponseEntity<PostAuthResponseBody> {
     //     return this.post(MetergramClient.authenticate, postAuthRequestBody);
     // }
-
-    public getUserById(id: number): ResponseEntity<GetUserResponseBody> {
-        return this.get( "users/" + id);
-    }
 }
