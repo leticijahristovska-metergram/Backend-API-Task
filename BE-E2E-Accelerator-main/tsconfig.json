@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es5", // Change this to "es2015" or later
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    // Add "es2015" or later to the lib array
+    // Other compiler options...
+    "allowSyntheticDefaultImports": true
+  }
+}
