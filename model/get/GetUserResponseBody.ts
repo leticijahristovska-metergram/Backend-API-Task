@@ -1,7 +1,7 @@
-import {UserData} from "./GetUserData";
-import {SupportData} from "./SupportData";
-
 export interface GetUserResponseBody {
-    data: UserData;
-    support: SupportData;
+    id: number;
+    email: string;
+    first_name: string;
+    last_name: string;
+    avatar: string;
 }

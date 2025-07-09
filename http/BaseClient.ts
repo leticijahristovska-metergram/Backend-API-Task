@@ -150,6 +150,40 @@ class BaseClient {
     addHeader(key: string, value: string): void {
         this.httpRequestHeaders[key] = value;
     }
+
+    /**
+    * Sends a PATCH request to the specified route with the given request body.
+    * @template T The expected response data type.
+    * @param {string} route - The API route (path) to send the PATCH request to.
+    * @param {any} body - The request payload to send in the PATCH request.
+    * @returns {Promise<AxiosResponse<T> | null>} A promise that resolves to the Axios response containing data of type T, or null if the request fails.
+    */
+    async patch<T>(route: string, body: any): Promise<AxiosResponse<T> | null> {
+        const config: AxiosRequestConfig = {
+            url: this.baseUrl + route,
+            method: 'patch',
+            headers: this.httpRequestHeaders,
+            data: body
+        };
+        return await this.handleRequest<T>(config);
+    }
+
+    /**
+    * Sends a PUT request to the specified route with the given request body.
+    * @template T The expected response data type.
+    * @param {string} route - The API route (path) to send the PUT request to.
+    * @param {any} body - The request payload to send in the PUT request.
+    * @returns {Promise<AxiosResponse<T> | null>} A promise that resolves to the Axios response containing data of type T, or null if the request fails.
+    */
+    async put<T>(route: string, body: any): Promise<AxiosResponse<T> | null> {
+        const config: AxiosRequestConfig = {
+            url: this.baseUrl + route,
+            method: 'put',
+            headers: this.httpRequestHeaders,
+            data: body
+        };
+        return await this.handleRequest<T>(config);
+    }
 }
 
 export default BaseClient;
