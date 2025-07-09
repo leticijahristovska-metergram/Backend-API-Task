@@ -13,6 +13,8 @@ interface Config {
      * @type {string}
      */
     HOSTNAMEAPI: string;
+    TESTUSERNAME: string;
+    PASSWORD: string;
 }
 
 const env = process.env.ENVIRONMENT;
@@ -23,9 +25,13 @@ if (!env) {
 const configs: { [key: string]: Config } = {
     dev: {
         HOSTNAMEAPI: process.env.HOSTNAMEAPI || (() => { throw new Error(ERRORS.HOSTNAMEAPI_UNDEFINED); })(),
+        TESTUSERNAME: process.env.TESTUSERNAME || (() => {throw new Error(ERRORS.TESTUSERNAME_UNDEFINED);})(),
+        PASSWORD: process.env.PASSWORD || (() => { throw new Error(ERRORS.PASSWORD_UNDEFINED); })(),
     },
     test: {
         HOSTNAMEAPI: process.env.HOSTNAMEAPI || (() => { throw new Error(ERRORS.HOSTNAMEAPI_UNDEFINED); })(),
+        TESTUSERNAME: process.env.TESTUSERNAME || (() => {throw new Error(ERRORS.TESTUSERNAME_UNDEFINED);})(),
+        PASSWORD: process.env.PASSWORD || (() => { throw new Error(ERRORS.PASSWORD_UNDEFINED); })(),
     },
 };
 
@@ -45,5 +51,11 @@ export function getConfig(): Config {
         throw new Error(ERRORS.HOSTNAMEAPI_UNDEFINED);
     }
 
+    if (!config.TESTUSERNAME) {
+        throw new Error(ERRORS.TESTUSERNAME_UNDEFINED);
+    }
+    if (!config.PASSWORD) {
+        throw new Error(ERRORS.PASSWORD_UNDEFINED);
+    }
     return config;
 }
